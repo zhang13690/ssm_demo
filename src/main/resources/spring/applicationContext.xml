@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 注意beans节点中使用的名称空间要正确 -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+    <!-- 一、配置数据源 -->
+    <!-- 1. 加载db.properties文件 -->
+    <context:property-placeholder location="classpath:db.properties" />
+    <!-- 2. 使用druid配置数据源 -->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+        <property name="url" value="${jdbc_url}" />
+        <property name="connectionProperties" value="${jdbc_connectionProperties}" />
+        <property name="username" value="${jdbc_username}" />
+        <property name="password" value="${jdbc_password}" />
+        <property name="initialSize" value="1" />
+        <property name="maxActive" value="10" />
+        <property name="minIdle" value="1" />
+        <property name="maxWait" value="60000" />
+        <property name="timeBetweenEvictionRunsMillis" value="60000" />
+        <property name="minEvictableIdleTimeMillis" value="300000" />
+        <property name="testWhileIdle" value="true" />
+        <property name="testOnBorrow" value="false" />
+        <property name="testOnReturn" value="false" />
+        <property name="poolPreparedStatements" value="true" />
+        <property name="maxOpenPreparedStatements" value="20" />
+        <property name="asyncInit" value="true" />
+    </bean>
+    <!-- 二、Mybatis的整合配置 -->
+    <!-- 1. 配置会话工厂。 -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!-- 引用数据源 -->
+        <property name="dataSource" ref="dataSource" />
+        <!-- Mybatis的配置文件位置 -->
+        <property name="configLocation" value="classpath:mybatis/config.xml" />
+    </bean>
+    <!-- 2. 配置mapper。这里使用MapperScannerConfigurer扫描mapper包 -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <!-- 指定mapper所在包 -->
+        <property name="basePackage" value="com.emp.mapper" />
+        <!-- 指明sqlSessionFactory配置的bean的名称，注意这里不是引用sqlSessionFactory -->
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
+    </bean>
+    <!-- 三、配置Service -->
+    <!-- 只要开启注解扫描即可。注解扫描这里实际上就是为Service服务的，因为需要把他们加入到容器管理中 -->
+    <!-- 而mapper接口类无需加上注解@Repository，因为mapper接口类已经通过mapper扫描器MapperScannerConfigurer注入Spring中了，注入的mapper代理类的bean名称就是类名（首字母小写，例如employeeMapper） -->
+    <context:component-scan base-package="com.emp.service" />
+    <!-- 四、事务配置 -->
+    <bean id="tx" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <!-- 引用dataSource -->
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+    <!-- 使用事务注解 -->
+    <tx:annotation-driven transaction-manager="tx" proxy-target-class="true" />
+</beans>

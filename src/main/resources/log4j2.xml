@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration status="error">
+    <!--先定义所有的appender-->
+    <appenders>
+        <!-- 定义一个控制台输出配置 -->
+        <Console name="Console" target="SYSTEM_OUT">
+            <!-- 该标签可控制输出级别。level表示匹配的级别，onMatch为ACCEPT表示级别匹配则接收，onMisMatch为DENY表示不匹配就拒绝-->
+            <!-- 这里就是让控制台输出trace级别及以上级别的日志 -->
+            <ThresholdFilter level="trace" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} %-5level %class{36} %L %M - %msg%xEx%n"/>
+        </Console>
+        <!-- 这里定义一个文件输出配置。name表示该appender名称，fileName指定日志文件名，append表示是否追加，这里设置成false表示不追加，那么每次运行程序都会清空之前内容。适合测试用 -->
+        <File name="log" fileName="log/test.log" append="false">
+            <!-- 下面同样是配置输出级别和输出格式 -->
+            <ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} %-5level %class{36} %L %M - %msg%xEx%n"/>
+        </File>
+        <!-- 这里定义的是RollingFile的Appender。可进行存档 -->
+        <!-- 解释：该Appender会打印所有信息，每次当log文件大小超过5M时，就将日志压缩存档到按年份-月份建立的文件夹中 -->
+        <RollingFile name="RollingFile" fileName="logs/app.log"
+                     filePattern="log/$${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.log.gz">
+            <!-- 定义size大小 -->
+            <SizeBasedTriggeringPolicy size="5MB"/>
+            <PatternLayout pattern="%d{yyyy-MM-dd 'at' HH:mm:ss z} %-5level %class{36} %L %M - %msg%xEx%n"/>
+        </RollingFile>
+    </appenders>
+    <!-- 然后定义logger并引用appender -->
+    <loggers>
+        <!--使用默认的root-->
+        <root level="trace">
+            <appender-ref ref="Console"/>
+            <appender-ref ref="log" />
+            <appender-ref ref="RollingFile" />
+        </root>
+    </loggers>
+</configuration>
