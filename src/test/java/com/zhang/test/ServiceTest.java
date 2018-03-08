@@ -1,8 +1,8 @@
 package com.zhang.test;
 
-import com.zhang.domain.Employee;
-import com.zhang.mapper.EmployeeMapper;
-import com.zhang.service.IEmployeeService;
+import com.zhang.domain.Product;
+import com.zhang.mapper.ProductMapper;
+import com.zhang.service.IProductService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -15,22 +15,22 @@ import java.util.List;
 @ContextConfiguration(locations={"classpath:spring/applicationContext.xml"})
 public class ServiceTest {
     // 注入需要的属性
-    @Resource(name = "employeeService")
-    private IEmployeeService employeeService;
-    @Resource(name = "employeeMapper")
-    private EmployeeMapper employeeMapper;
+    @Resource
+    private IProductService productService;
+    @Resource
+    private ProductMapper productMapper;
 
     @Test
     @Transactional
     public void testService() {
-        List<Employee> employee = employeeService.findAllEmployees();
+        List<Product> employee = productService.getAllProducts();
         System.out.println(employee);
     }
 
     @Test
     @Transactional
     public void testDao() {
-        List<Employee> employee = employeeMapper.selectEmployees();
+        List<Product> employee = productMapper.getAllProducts();
         System.out.println(employee);
     }
 

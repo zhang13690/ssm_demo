@@ -7,12 +7,10 @@
     <title>功能页面</title>
 </head>
 <body>
+    <div>欢迎你，${user.username}</div>
     <ul>
         <li>
-            <a href="${basePath}/emp/findAllEmps.action">查看员工信息</a>
-        </li>
-        <li>
-            <a href="${basePath}/emp/addEmployee.action">添加员工信息</a>
+            <a href="${basePath}/product/getAllProducts.action">查看员工信息</a>
         </li>
     </ul>
 </body>

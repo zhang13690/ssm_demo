@@ -34,11 +34,11 @@ public class User implements Serializable {
         this.account = account;
     }
 
-    public String getName() {
+    public String getUsername() {
         return username;
     }
 
-    public void setName(String username) {
+    public void setUsername(String username) {
         this.username = username;
     }
 
@@ -71,7 +71,7 @@ public class User implements Serializable {
         return "User{" +
                 "id='" + id + '\'' +
                 ", account='" + account + '\'' +
-                ", name='" + username + '\'' +
+                ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", age=" + age +
                 ", gender='" + gender + '\'' +
