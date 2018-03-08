@@ -18,6 +18,8 @@ public class User implements Serializable {
     private String gender;
     // 其他属性......
 
+    // getter和setter
+
     public String getId() {
         return id;
     }
