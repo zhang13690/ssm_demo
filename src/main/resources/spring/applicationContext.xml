@@ -37,14 +37,14 @@
     <!-- 2. 配置mapper。这里使用MapperScannerConfigurer扫描mapper包 -->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <!-- 指定mapper所在包 -->
-        <property name="basePackage" value="com.emp.mapper" />
+        <property name="basePackage" value="com.zhang.mapper" />
         <!-- 指明sqlSessionFactory配置的bean的名称，注意这里不是引用sqlSessionFactory -->
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
     </bean>
     <!-- 三、配置Service -->
     <!-- 只要开启注解扫描即可。注解扫描这里实际上就是为Service服务的，因为需要把他们加入到容器管理中 -->
     <!-- 而mapper接口类无需加上注解@Repository，因为mapper接口类已经通过mapper扫描器MapperScannerConfigurer注入Spring中了，注入的mapper代理类的bean名称就是类名（首字母小写，例如employeeMapper） -->
-    <context:component-scan base-package="com.emp.service" />
+    <context:component-scan base-package="com.zhang.service" />
     <!-- 四、事务配置 -->
     <bean id="tx" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <!-- 引用dataSource -->
