@@ -10,7 +10,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!-- 定义使用的Spring版本号，因为下面会多次使用到 -->
-        <spring-version>5.2.7.RELEASE</spring-version>
+        <spring-version>5.2.20.RELEASE</spring-version>
     </properties>
     <dependencies>
         <!-- SpringMVC的依赖。会自动依赖Spring核心包 -->
